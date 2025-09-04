@@ -7,6 +7,8 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from '../src/app.module';
 
+export const config = { runtime: 'nodejs20.x' };
+
 // 复用 handler，减少冷启动
 let cached: any;
 
