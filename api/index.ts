@@ -18,9 +18,9 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log'],
   });
 
-  // 可改成你的前端域名白名单
+
   app.enableCors({
-    origin: '*',
+    origin: 'https://floodfighter.vercel.app/',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Authorization',
   });
