@@ -5,7 +5,7 @@ import { FloodService } from './flood.service';
 export class FloodController {
   constructor(private readonly floodService: FloodService) {}
 
-  @Get('catchments')
+  @Get()
   async getCatchments() {
     return this.floodService.getFloodCatchments();
   }
