@@ -1,5 +1,4 @@
-// api/index.ts
-export const config = { runtime: 'vercel/node@22.x' }; 
+export const config = { runtime: 'nodejs22.x' }; // 或 'nodejs20.x'
 
 import 'reflect-metadata';
 import serverless from 'serverless-http';
@@ -14,18 +13,16 @@ async function bootstrap() {
   const expressApp = express();
   const adapter = new ExpressAdapter(expressApp);
 
-  const app = await NestFactory.create(AppModule, adapter, {
-    logger: ['error', 'warn', 'log'],
-  });
+  const app = await NestFactory.create(AppModule, adapter, { logger: ['error','warn','log'] });
 
-
+  // 生产建议把 origin 换成你的前端域名
   app.enableCors({
-    origin: 'https://floodfighter.vercel.app/',
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Authorization',
   });
 
-  await app.init(); // serverless 环境不调用 listen
+  await app.init();           // serverless 环境不要 app.listen()
   return serverless(expressApp);
 }
 
