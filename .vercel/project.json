@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_ISwSjlIQwytiHEXuD9OLkfrsYSGz",
+  "orgId": "team_cGXriVOyYwXSS1SRD03VwSK3",
+  "projectName": "floodfighterbackend",
+  "settings": {
+    "createdAt": 1756976099304,
+    "framework": null,
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "22.x"
+  }
+}
