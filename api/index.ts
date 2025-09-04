@@ -1,5 +1,5 @@
 // api/index.ts
-export const config = { runtime: 'nodejs20.x' }; // 强制 Node 运行时
+export const config = { runtime: 'vercel/node@20.x' }; 
 
 import 'reflect-metadata';
 import serverless from 'serverless-http';
