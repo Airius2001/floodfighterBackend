@@ -1,5 +1,5 @@
 // api/index.ts
-export const config = { runtime: 'vercel/node@20.x' }; 
+export const config = { runtime: 'vercel/node@22.x' }; 
 
 import 'reflect-metadata';
 import serverless from 'serverless-http';
