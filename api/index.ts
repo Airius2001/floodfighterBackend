@@ -18,14 +18,14 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log'],
   });
 
-  // 如有前端域名，建议把 origin 改成白名单
+  // 可改成你的前端域名白名单
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Authorization',
   });
 
-  await app.init(); // serverless 环境不 listen
+  await app.init(); // serverless 环境不调用 listen
   return serverless(expressApp);
 }
 
