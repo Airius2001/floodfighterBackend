@@ -6,14 +6,23 @@ export class FloodService {
   private API_URL =
     'https://hosting.wsapi.cloud.bom.gov.au/arcgis/rest/services/flood/National_Flood_Gauge_Network/FeatureServer/1/query';
 
+  // Cache (optimization)
+  private cache: { timestamp: number; data: any[] } | null = null;
+  private cacheTTL = 1000 * 60 * 60; // cache 1 hour
+
   async getFloodCatchments() {
-    const batchSize = 300; // 200 requests per batch
+    // If the cache exists and is not expired, return the cache directly.
+    if (this.cache && Date.now() - this.cache.timestamp < this.cacheTTL) {
+      return this.cache.data;
+    }
+
+    // Otherwise call the API
+    const batchSize = 300;
     let result: any[] = [];
     let offset = 0;
-    let total = Infinity;
 
     try {
-      while (offset < total) {
+      while (true) {
         const response = await axios.get(this.API_URL, {
           params: {
             f: 'json',
@@ -25,36 +34,25 @@ export class FloodService {
           },
         });
 
-        // Confirm return features
         const features = Array.isArray(response.data.features) ? response.data.features : [];
-
-        features.forEach((feat, idx) => {
-            console.log(`Feature ${offset + idx}:`, feat.attributes);
-            });
-
-        result = result.concat(features);
-
-        // Set the next offset
-        offset += batchSize;
-
-        // Get totalCount
-        if (total === Infinity && typeof response.data.exceededTransferLimit !== 'undefined') {
-          // If the service supports totalCount
-          total = response.data.exceededTransferLimit ? offset + batchSize : offset;
-        }
-
-        // If the features return empty, stop.
         if (features.length === 0) break;
+
+        result = result.concat(
+          features.map((feat) => ({
+            name: feat.attributes.dist_name || 'Unknown',
+            geometry: feat.geometry,
+          })),
+        );
+
+        offset += batchSize;
       }
 
-      // Mapped to the format required by the front end
-      return result.map((feat) => ({
-        name: feat.attributes.dist_name || 'Unknown',
-        geometry: feat.geometry,
-      }));
+      // Cache stored
+      this.cache = { timestamp: Date.now(), data: result };
+
+      return result;
     } catch (err) {
       console.error('Error fetching flood catchments:', err);
-
       throw err;
     }
   }
