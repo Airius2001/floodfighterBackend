@@ -14,7 +14,8 @@ async function bootstrap() {
   const adapter = new ExpressAdapter(expressApp);
 
 
-  const { AppModule } = await import('../dist/src/app.module.js');
+const { AppModule } = await import('../src/app.module.js');
+
 
   const app = await NestFactory.create(AppModule, adapter, {
     logger: ['error', 'warn', 'log'],

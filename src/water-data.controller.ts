@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
 import { WaterDataService } from './water-data.service';
 
 @Controller('water-data')
@@ -7,6 +7,13 @@ export class WaterDataController {
 
   @Get()
   async fetchData() {
-    return await this.waterDataService.getWaterData();
+    try {
+      return await this.waterDataService.getWaterData();
+    } catch (error) {
+      throw new HttpException(
+        'Failed to retrieve water data',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
