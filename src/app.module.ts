@@ -8,10 +8,14 @@ import { WaterDataController } from './water-data.controller';
 
 import { FloodController } from './flood.controller';
 import { FloodService } from './flood.service';
+import { WeatherService } from './weather.service';
+import { WeatherController } from './weather.controller';
+import { GeoController } from './geo.controller';
+import { GeoService } from './geo.service';
 
 @Module({
   imports: [HttpModule],
-  controllers: [WaterDataController, FloodController],
-  providers: [WaterDataService, FloodService],
+  controllers: [WaterDataController, FloodController, WeatherController, GeoController],
+  providers: [WaterDataService, FloodService, WeatherService, GeoService]
 })
 export class AppModule {}
