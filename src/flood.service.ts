@@ -17,7 +17,7 @@ export class FloodService {
     }
 
     // Otherwise call the API
-    const batchSize = 300;
+    const batchSize = 1000;
     let result: any[] = [];
     let offset = 0;
 

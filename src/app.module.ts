@@ -12,10 +12,12 @@ import { WeatherService } from './weather.service';
 import { WeatherController } from './weather.controller';
 import { GeoController } from './geo.controller';
 import { GeoService } from './geo.service';
+import { RainfallService } from './rainfall.service';
+import { RainfallController } from './rainfall.controller';
 
 @Module({
   imports: [HttpModule],
-  controllers: [WaterDataController, FloodController, WeatherController, GeoController],
-  providers: [WaterDataService, FloodService, WeatherService, GeoService]
+  controllers: [WaterDataController, FloodController, WeatherController, GeoController, RainfallController],
+  providers: [WaterDataService, FloodService, WeatherService, GeoService, RainfallService]
 })
 export class AppModule {}

@@ -21,7 +21,7 @@ export class WeatherService {
         const mm = precip[i];
         let risk = 'Low';
         if (mm > 3) risk = 'High';
-        else if (mm > 1) risk = 'Medium';
+        else if (mm > 1.5) risk = 'Medium';
         return { time: t, precipitation: mm, risk };
       });
 
