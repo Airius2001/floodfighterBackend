@@ -7,12 +7,16 @@ export class GeoService {
     try {
       const geoRes = await axios.get('https://nominatim.openstreetmap.org/search', {
    params: {
-          postalcode: postcode,
-          country: 'AU',
-          format: 'json',
-          limit: 1,
-        },
-      });
+        postalcode: postcode,
+        country: "AU",
+        format: "json",
+        limit: 1,
+      },
+      headers: {
+        "User-Agent": "MyRenderApp/1.0 (rkro0014@student.monash.edu@gmail.com)", 
+        "Accept-Language": "en",
+      },
+    });
 
 
       if (!geoRes.data.length) {
