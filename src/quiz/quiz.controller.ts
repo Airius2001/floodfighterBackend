@@ -9,4 +9,10 @@ export class QuizController {
   async getAllQuestions() {
     return this.quizService.findAll();
   }
+
+  // ✅ random interface
+  @Get('random')
+  async getRandomQuiz() {
+    return this.quizService.findRandom(10);
+  }
 }
