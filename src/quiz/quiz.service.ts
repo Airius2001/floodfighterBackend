@@ -1,32 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { QuizQuestion } from './entities/quiz-question.entity';
 
 @Injectable()
-export class QuizService {
+export class QuizService implements OnModuleInit {
+  private readonly logger = new Logger(QuizService.name);
+
   constructor(
     @InjectRepository(QuizQuestion)
     private readonly quizRepo: Repository<QuizQuestion>,
   ) {}
 
+  // Automatically execute the keep-alive logic once when the service starts
+  async onModuleInit() {
+    this.keepDatabaseAlive();
+    // Perform a database 'keep-alive' every 5 minutes
+    setInterval(() => this.keepDatabaseAlive(), 5 * 60 * 1000);
+  }
+
+  private async keepDatabaseAlive() {
+    try {
+      await this.quizRepo.query('SELECT 1');
+      this.logger.log('Database connection kept alive ✅');
+    } catch (err) {
+      this.logger.error('Database keep-alive failed ❌', err);
+    }
+  }
+
+  // The existing findAll method
   async findAll() {
     return this.quizRepo.find({ relations: ['options', 'explanations'] });
   }
 
-  // Randomly select 10 questions, keeping all options and explanations
+  // The original random question method (with minor corrections)
   async findRandom(limit = 10) {
-    // Randomly obtain the question ID
     const randomIds = await this.quizRepo
       .createQueryBuilder('quiz')
-      .select('quiz.question_id')
+      .select('quiz.question_id', 'id')
       .orderBy('RANDOM()')
       .limit(limit)
       .getRawMany();
 
-    const ids = randomIds.map((q) => q.quiz_question_id);
+    // 🛠 Fix: The field name mapped is incorrect
+    const ids = randomIds.map((q) => q.id);
 
-    // Check the complete question and its associated data
     return this.quizRepo.find({
       where: { question_id: In(ids) },
       relations: ['options', 'explanations'],
