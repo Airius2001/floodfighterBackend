@@ -1,98 +1,125 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# FloodFighter Backend
+This is the backend API service for the FloodFighter project. It handles data persistence, business logic, quiz / flood-info APIs, and serves as the core data provider for the frontend client.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Front end repo:
+https://github.com/Airius2001/floodfighter.git
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Public data / dataset repo:
+https://github.com/TrNgyn/FloodFighter_public_data.git
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
+## Project Structure
+```
+floodfighterBackend/
+│
+├── .vercel/                     # Vercel deployment configuration
+├── api/                         # (Optional) API route definitions for serverless deployment
+├── dist/                        # Compiled TypeScript output
+├── node_modules/                # Dependencies
+├── src/                         # Main application source code
+│   ├── quiz/                    # Quiz module
+│   │   ├── entities/            # TypeORM entities defining database models
+│   │   │   ├── quiz-explanation.entity.ts
+│   │   │   ├── quiz-option.entity.ts
+│   │   │   ├── quiz-question.entity.ts
+│   │   ├── quiz.controller.ts   # Handles quiz-related HTTP requests
+│   │   ├── quiz.service.ts      # Business logic for quiz data
+│   │
+│   ├── app.controller.ts        # Main application controller
+│   ├── app.controller.spec.ts   # Unit tests for AppController
+│   ├── app.module.ts            # Root module of the application
+│   ├── app.service.ts           # Core service providing shared functionality
+│
+│   ├── flood.controller.ts      # Controller for flood data endpoints
+│   ├── flood.service.ts         # Service handling flood-related logic
+│
+│   ├── geo.controller.ts        # Controller for geographical data
+│   ├── geo.service.ts           # Service managing geographic data retrieval
+│
+│   ├── rainfall.controller.ts   # Controller for rainfall data
+│   ├── rainfall.service.ts      # Service managing rainfall analysis
+│
+│   ├── water-data.service.ts    # Service for handling water-level datasets
+│
+│   ├── weather.controller.ts    # Controller for weather API requests
+│   ├── weather.service.ts       # Service providing weather data logic
+│
+│   ├── main.ts                  # Application entry point (bootstraps NestJS app)
+│
+├── test/                        # Unit/integration tests
+│
+└── package.json                 # Project metadata and scripts
 ```
 
-## Compile and run the project
+## Key Features & Responsibilities
+This backend handles:
+  * Quiz APIs — endpoints for fetching quiz questions, submitting answers, scoring
+  * Flood Data Endpoints — provide flood data, geospatial queries
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+## Tech stack
+```
+Layer	                                 Technology / Library
+Framework	                             NestJS (TypeScript)
+ORM / Database	                         TypeORM + PostgreSQL
+Environment                              @nestjs
+Testing                                  Postman
+Deployment                               Render
+Scripting                                Node.js script
 ```
 
-## Run tests
+## Setup & Local Development
+1. Clone & Install
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+git clone https://github.com/Airius2001/floodfighterBackend.git
+cd floodfighterBackend
+npm install
+# or
+yarn install
 ```
 
-## Deployment
+2. Configure Environment Variables
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USER=your_db_user
+DATABASE_PASSWORD=your_db_password
+DATABASE_NAME=floodfighter
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+3. Start the Server
 
-## Resources
+```
+npm run start:dev
+# or
+yarn start:dev
+```
+By default, the app should run on http://localhost:3001 (or whatever port you configure).
 
-Check out a few resources that may come in handy when working with NestJS:
+## Testing
+```
+npm run test
+# or
+yarn test
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Deployment (Render)
+Go to render platform and then connect your github account, then select the backend repository. Finally click manual deploy button and select the main branch to deploy.
 
-## Support
+## Integration with Frontend
+  * The frontend’s API URLS should point to this backend’s deployed URL.
+  * Ensure CORS is configured to allow your frontend origin.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Public Data & Datasets
+The backend depends on the public data repository:
 
-## Stay in touch
+  * https://github.com/TrNgyn/FloodFighter_public_data.git (Contains CSV / SQL scripts, initial quiz data, and flood datasets.)
+  * Use this data to seed your database or feed endpoints.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Acknowledgments
+  * The frontend team and contributors
+  * FloodFighter public data contributors
+  * Open-source frameworks: NestJS, TypeScript, PostgreSQL, etc.
 
-## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
